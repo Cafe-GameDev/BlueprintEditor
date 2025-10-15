@@ -40,7 +40,7 @@ O BlueprintEditor será implementado como um `TopPanel` dedicado no editor Godot
     *   **Toolbox/Paleta de Resources:** Uma área lateral (ou um `PopupMenu` contextual) que listará os tipos de `Resources` disponíveis para serem arrastados e soltos no grafo, criando novos nós.
     *   **Inspector Integrado:** Ao selecionar um `GraphNode`, suas propriedades detalhadas serão exibidas no Inspector padrão do Godot, permitindo a configuração do `Resource` subjacente.
 
-### 2.2. Integração com `CoreEngine` (TopPanel)
+### 2.2. Integração com `ResourceEditor` (TopPanel)
 
 O BlueprintEditor será acessível como uma aba principal no editor Godot, similar às abas "2D", "3D" ou "Script". Isso garante um espaço de trabalho amplo e dedicado para a criação de grafos complexos.
 
