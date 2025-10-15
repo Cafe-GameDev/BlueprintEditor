@@ -22,9 +22,9 @@ Diferente de plugins que substituem a programação em GDScript, o BlueprintEdit
 
 ### 1.3. Política de Versão e Compatibilidade
 
-*   **Versão Alvo:** Godot 4.3+ (conforme o `Block Coding` e `Orchestrator` analisados, o 4.3+ parece ser um bom ponto de partida para editores visuais).
+*   **Versão Alvo:** Godot 4.5+ (essa é a versão alvo para todos os plugins da CafeEngine).
 *   **Compatibilidade:** Mantida com versões futuras da série 4.x.
-*   **Retrocompatibilidade:** Não haverá suporte para versões anteriores a 4.3.
+*   **Retrocompatibilidade:** Não haverá suporte para versões anteriores a 4.5.
 
 ---
 
@@ -43,6 +43,39 @@ O BlueprintEditor será implementado como um `TopPanel` dedicado no editor Godot
 ### 2.2. Integração com `CoreEngine` (TopPanel)
 
 O BlueprintEditor será acessível como uma aba principal no editor Godot, similar às abas "2D", "3D" ou "Script". Isso garante um espaço de trabalho amplo e dedicado para a criação de grafos complexos.
+
+### 2.3. Módulos CrossPlugin (O Coração da Extensibilidade)
+
+O BlueprintEditor não é apenas um editor de grafos; ele é um **host genérico para Módulos CrossPlugin**. Esses módulos são extensões de outros plugins da CafeEngine que se registram no BlueprintEditor para fornecer interfaces visuais especializadas.
+
+*   **Conceito:** Um Módulo CrossPlugin é uma interface visual e funcional que reside dentro do BlueprintEditor, permitindo a manipulação de `Resources` e lógica de um plugin específico (ex: StateMachine, DataBehavior) de forma gráfica e interativa.
+*   **Contrato de Integração:** Para se registrar, um plugin deve fornecer ao BlueprintEditor:
+    *   Um nome de módulo (ex: "StateBlue", "CutBlue").
+    *   Uma cena ou `Control` que representará a interface do módulo dentro do BlueprintEditor.
+    *   Métodos para lidar com a ativação/desativação do módulo, e para receber contexto (ex: `StateComponent` selecionado).
+    *   Uma lista de "modos" ou "abas" que o módulo oferece (ex: `ComponentBuild`, `ResourceEdit`, `ScriptNew`).
+*   **Benefício:** Centraliza a experiência de edição visual em um único `TopPanel`, promovendo consistência e eliminando a necessidade de múltiplos painéis modais ou docks.
+
+#### 2.3.1. `BlueprintStateModule` (StateBlue) - O Primeiro Módulo CrossPlugin
+
+O `BlueprintStateModule` (apelidado de **StateBlue**) é o primeiro e principal exemplo de um Módulo CrossPlugin, projetado para integrar o StateMachine ao BlueprintEditor.
+
+*   **Propósito:** Fornecer uma interface visual completa para a manipulação de `StateComponent`s, `Machines` e `Behaviors` do plugin StateMachine.
+*   **Ativação:** O módulo StateBlue pode ser acessado a qualquer momento através do BlueprintEditor. Ele manterá um histórico dos **`StateComponent`s, `Resources` (como `StateBehavior`s e `Machines`) e scripts** abertos recentemente, garantindo acesso rápido e contínuo.
+*   **Integração no SceneTree (Opcional):** Uma melhoria desejável, se tecnicamente viável, seria a exibição de um ícone 'StateBlue' ao lado de um `StateComponent` no SceneTree, permitindo acesso direto.
+*   **Modos de Operação (Sidebar/Tabs):** StateBlue oferecerá uma sidebar (ou sistema de abas) com os seguintes modos:
+    1.  **`ComponentBuild` (Maestro do Grafo):**
+        *   **Finalidade:** Manipulação visual do `StateComponent` através de um editor de grafo.
+        *   **Funcionalidade:** Arrastar e soltar `Machines` (domínios como `Move`, `Attack`, `AI`) e `Behaviors` (comportamentos como `Idle`, `Walk`, `SwordStab`) no grafo. Conectar visualmente para orquestrar o `StateComponent`.
+        *   **Impacto:** Substitui a necessidade de edição manual complexa e visualiza o fluxo de estados de forma intuitiva.
+    2.  **`ResourceEdit` (Precisão do Detalhe):**
+        *   **Finalidade:** Edição otimizada das propriedades de um `StateBehavior` ou `Machine` selecionado.
+        *   **Funcionalidade:** Apresenta um painel focado (potencialmente com um `EditorInspector` customizado ou um formulário amigável) para ajustar cada detalhe do `Resource`.
+        *   **Integração:** Pode ser acessado diretamente do grafo (selecionando um nó) ou do `StateBottomPanel` (clicando no botão "StateBlue" para um item selecionado).
+    3.  **`ScriptNew` (Gênese da Inovação):**
+        *   **Finalidade:** Criação guiada de novos `StateBehavior`s e seus scripts associados.
+        *   **Funcionalidade:** Um "wizard" com campos para nome, tipo base, etc., e um botão para gerar o `.tres` e o `.gd` a partir de templates inteligentes.
+        *   **Benefício:** Reduz o boilerplate e acelera a prototipagem de novos comportamentos.
 
 ---
 
