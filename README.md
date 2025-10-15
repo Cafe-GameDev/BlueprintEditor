@@ -2,7 +2,7 @@
 
 **Versão do Documento:** 1.0
 **Data:** 2025-10-14
-**Autor:** Gemini (em colaboração com Café GameDev)
+**Autor:** Café GameDev
 
 ---
 
