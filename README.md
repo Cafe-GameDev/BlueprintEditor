@@ -28,20 +28,6 @@ Diferente de plugins que substituem a programação em GDScript, o BlueprintEdit
 
 ---
 
-## 1. Visão Geral e Filosofia
-
-### 1.1. Conceito
-
-O **BlueprintEditor** é um plugin para Godot Engine 4.x, parte da suíte CafeEngine, que oferece um **editor visual/NoCode de alto nível** para construir e gerenciar a lógica de jogo de forma intuitiva e baseada em grafos. Inspirado no sistema de Blueprints da Unreal Engine, ele visa orquestrar `Resources` inteligentes criados sob a filosofia de Programação Orientada a Resources (ROP).
-
-### 1.2. Filosofia Central
-
-Diferente de plugins que substituem a programação em GDScript, o BlueprintEditor atua como uma **ferramenta de manipulação e visualização**. Ele não é uma linguagem de script em si, mas uma interface gráfica para interagir e organizar os `Resources` da CafeEngine. Seu propósito é:
-
-*   **Orquestração Visual:** Traduzir a modularidade e a inteligência dos `Resources` em um diagrama de fluxo claro e editável.
-*   **Complementaridade:** Fornecer uma camada visual para outros plugins da CafeEngine, como o StateMachine, permitindo a manipulação de seus `Resources` de forma gráfica.
-*   **NoCode/LowCode:** Capacitar desenvolvedores e designers a criar lógica complexa sem a necessidade de escrever código diretamente, focando na arquitetura e no fluxo.
-
 ## 2. Arquitetura Central do Plugin
 
 O BlueprintEditor será implementado como um `TopPanel` dedicado no editor Godot, utilizando componentes nativos para criar uma experiência de usuário coesa.
